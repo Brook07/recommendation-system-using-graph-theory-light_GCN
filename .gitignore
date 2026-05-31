@@ -1,0 +1,12 @@
+cleaned_ratings.csv
+data/processed/*.csv
+reports/figures/*.png
+.ipynb_checkpoints/
+.venv/
+.venv-1/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.DS_Store
