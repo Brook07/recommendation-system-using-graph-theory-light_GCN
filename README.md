@@ -36,3 +36,12 @@ c:/python313/python.exe scripts/preprocess_book_crossing.py
 ```
 
 That script will regenerate `data/processed/cleaned_ratings.csv` and the plots in `reports/figures/`.
+
+## Graph Construction
+Build the LightGCN-ready bipartite graph with:
+
+```powershell
+c:/python313/python.exe scripts/build_book_graph.py
+```
+
+This creates user/book mappings, `edge_index`, `edge_weight`, saved graph statistics, and graph visualizations for the recommendation model.
