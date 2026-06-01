@@ -1,5 +1,6 @@
 cleaned_ratings.csv
 data/processed/*.csv
+data/processed/*.pt
 reports/figures/*.png
 .ipynb_checkpoints/
 .venv/
