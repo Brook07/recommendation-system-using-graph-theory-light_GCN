@@ -17,8 +17,8 @@ class InferenceEngine:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
         # Load mappings
-        self.user_map_df = pd.read_csv("data/processed/user_mapping.csv")
-        self.book_map_df = pd.read_csv("data/processed/book_mapping.csv")
+        self.user_map_df = pd.read_csv("data/processed/filtered_user_mapping.csv")
+        self.book_map_df = pd.read_csv("data/processed/filtered_book_mapping.csv")
         
         self.user_map = dict(zip(self.user_map_df['User-ID'].to_list(), self.user_map_df['node_index'].to_list()))
         self.book_map = dict(zip(self.book_map_df['ISBN'].to_list(), self.book_map_df['node_index'].to_list()))
@@ -28,15 +28,16 @@ class InferenceEngine:
         
         # Load model checkpoint
         checkpoint = torch.load(model_path, map_location=self.device)
-        emb_dim = checkpoint.get('emb_dim', 64) # fallback if not found
+        emb_dim = checkpoint.get('embedding_size', checkpoint.get('emb_dim', 64))
+        n_layers = checkpoint.get('num_layers', 3)
         
-        self.model = LightGCNModel(num_nodes, emb_dim).to(self.device)
+        self.model = LightGCNModel(num_nodes, emb_dim, n_layers=n_layers).to(self.device)
         self.model.load_state_dict(checkpoint['model_state_dict'])
         self.model.eval()
         
         # Build adjacency and precompute embeddings
         print("Precomputing LightGCN embeddings...")
-        adj = build_adjacency(num_nodes, edge_index_path=Path("data/processed/edge_index.csv"))
+        adj = build_adjacency(num_nodes, edge_index_path=Path("data/processed/filtered_edge_index.csv"))
         adj = adj.to(self.device)
         with torch.no_grad():
             self.final_embeddings = self.model(adj)
