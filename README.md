@@ -1,47 +1,54 @@
-# Graph Theory + GNN Recommendation Platform
+# GraphRec: End-to-End GNN Book Recommendation Platform
 
-Production-grade design for an e-commerce recommendation system based on:
-- User–Item interaction graphs (heterogeneous + temporal)
-- Graph Neural Networks (GNNs) and link prediction
-- Personalized ranking with real-time serving
+GraphRec is a complete, production-grade e-commerce recommendation system based on Graph Neural Networks (GNNs). 
 
-This repo currently focuses on **complete system design** (research + engineering). Implementation can be layered on top of these specs.
+It models user-book interactions as a bipartite graph, trains a highly efficient **LightGCN** model natively in PyTorch, and serves real-time personalized recommendations via a modern **FastAPI** backend and **Streamlit** frontend.
 
-## Current Project Structure
-- [notebooks/01_book_crossing_preprocessing.ipynb](notebooks/01_book_crossing_preprocessing.ipynb) - preprocessing notebook for the Book-Crossing dataset
-- [scripts/preprocess_book_crossing.py](scripts/preprocess_book_crossing.py) - command-line preprocessing entry point
-- [src/book_reco/preprocessing.py](src/book_reco/preprocessing.py) - shared preprocessing helpers used by the notebook and script
-- `data/raw-dataset-books/` - raw Book-Crossing CSV files
-- `data/processed/cleaned_ratings.csv` - cleaned interaction table for downstream GNN work
-- `reports/figures/` - saved preprocessing charts
+## 🚀 Features
 
-## Documentation
-- Full research + ML design: [docs/INDUSTRY_DESIGN.md](docs/INDUSTRY_DESIGN.md)
-- System architecture, roadmap, codebase structure: [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md)
-- Mermaid diagrams (architecture, dataflow, pipelines): [docs/DIAGRAMS.md](docs/DIAGRAMS.md)
-- Coverage map (your 20 requirements → doc sections): [docs/SPEC_COVERAGE.md](docs/SPEC_COVERAGE.md)
+- **Advanced ML Pipeline**: Custom LightGCN implementation trained with Bayesian Personalized Ranking (BPR) loss and negative sampling.
+- **FastAPI Inference Engine**: Real-time REST API for serving model predictions.
+- **Smart Fallback Mechanism**: Gracefully handles the "Cold Start" problem for unknown users by falling back to popularity-based recommendations.
+- **Modern UI**: An interactive, card-based Streamlit web application.
+- **Comprehensive Docs**: Detailed architecture and sequence diagrams.
 
-## What this platform supports (target)
-- Multi-relational user behavior: views, clicks, carts, purchases, favorites, ratings
-- Session-aware and temporal modeling
-- Two-stage serving (candidate generation + ranking) with caching + fallbacks
-- Offline evaluation + online A/B testing hooks
-- Monitoring, model registry, CI/CD, and Kubernetes deployment plan
+## 📁 Project Structure
 
-## Book-Crossing Preprocessing
-Run the preprocessing pipeline from the project root with:
-
-```powershell
-c:/python313/python.exe scripts/preprocess_book_crossing.py
+```text
+graphrec/
+├── backend/          # FastAPI inference API (main.py, inference.py)
+├── frontend/         # Streamlit User Interface (app.py)
+├── models/           # Trained PyTorch model weights (.pt files)
+├── docs/             # Diagrams, implementation details, and demo script
+├── data/             # Raw and processed datasets, graph mappings
+├── src/              # Core ML libraries (preprocessing, graph, LightGCN)
+└── scripts/          # ML pipeline runner scripts
 ```
 
-That script will regenerate `data/processed/cleaned_ratings.csv` and the plots in `reports/figures/`.
+## 🛠️ Installation & Setup
 
-## Graph Construction
-Build the LightGCN-ready bipartite graph with:
+1. **Install Dependencies**:
+   Ensure you have Python 3.10+ installed.
+   ```powershell
+   pip install -r requirements.txt
+   ```
 
-```powershell
-c:/python313/python.exe scripts/build_book_graph.py
-```
+2. **Start the Backend (FastAPI)**:
+   In your terminal, run the following from the project root:
+   ```powershell
+   uvicorn backend.main:app --reload
+   ```
+   *The API will be available at http://localhost:8000*
 
-This creates user/book mappings, `edge_index`, `edge_weight`, saved graph statistics, and graph visualizations for the recommendation model.
+3. **Start the Frontend (Streamlit)**:
+   Open a *second* terminal window and run:
+   ```powershell
+   streamlit run frontend/app.py
+   ```
+   *The UI will automatically open in your browser at http://localhost:8501*
+
+## 📚 Documentation
+- Architecture & Roadmap: `docs/IMPLEMENTATION.md`
+- Sequence & Flow Diagrams: `docs/DIAGRAMS.md`
+- User Guide: `docs/USER_GUIDE.md`
+- Presentation Script: `docs/DEMO_SCRIPT.md`
