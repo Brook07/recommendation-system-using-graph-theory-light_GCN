@@ -57,122 +57,348 @@ st.markdown("""
     /* ---- Import Google Font ---- */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+    /* ---- Global Styles ---- */
     html, body, [class*="st-"] {
         font-family: 'Inter', sans-serif;
+        background: #0A1128;
+        color: #E8F1FF;
+    }
+
+    /* ---- Page Background ---- */
+    [data-testid="stAppViewContainer"] {
+        background: #0A1128;
+    }
+
+    /* ---- Sidebar Styling ---- */
+    [data-testid="stSidebar"] {
+        background: #1B2A4A;
+        border-right: 1px solid rgba(79, 195, 247, 0.2);
     }
 
     /* ---- Sidebar persona card ---- */
     .persona-card {
-        background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+        background: #2E5EAA;
         border-radius: 12px;
         padding: 16px;
         margin-bottom: 12px;
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 2px solid rgba(79, 195, 247, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .persona-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, #4FC3F7 0%, #2196F3 100%);
+        opacity: 1;
+    }
+    
+    .persona-card:hover {
+        background: #3A6FBF;
+        border-color: rgba(79, 195, 247, 0.5);
+        box-shadow: 0 4px 12px rgba(79, 195, 247, 0.2);
+    }
     }
     .persona-card .persona-name {
         font-size: 1.05em;
         font-weight: 600;
-        color: #e0e0ff;
+        color: #4FC3F7;
         margin-bottom: 4px;
     }
     .persona-card .persona-id {
         font-size: 0.82em;
-        color: #8888cc;
+        color: #90CAF9;
         margin-bottom: 6px;
     }
     .persona-card .persona-desc {
         font-size: 0.8em;
-        color: #aaaacc;
+        color: #E8F1FF;
         line-height: 1.45;
     }
 
-    /* ---- Book card ---- */
-    .book-card {
-        background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
-        border-radius: 14px;
-        padding: 18px 14px;
+    /* ---- Book Card (Combined Image + Details) ---- */
+    .book-card-container {
+        background: #1B3A70;
+        border-radius: 12px;
         margin: 8px 0;
-        border: 1px solid rgba(255,255,255,0.06);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        border: 1px solid rgba(79, 195, 247, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         text-align: center;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: all 0.2s ease;
+        overflow: hidden;
+        cursor: pointer;
     }
-    .book-card:hover {
+    
+    .book-card-container:hover {
+        background: #2E5EAA;
+        border-color: rgba(79, 195, 247, 0.4);
+        box-shadow: 0 6px 16px rgba(79, 195, 247, 0.2);
         transform: translateY(-4px);
-        box-shadow: 0 8px 30px rgba(80,80,200,0.18);
     }
-    .book-title {
-        font-size: 0.95em;
-        font-weight: 600;
-        margin-top: 10px;
-        color: #7eb8ff;
-        line-height: 1.35;
-        min-height: 2.7em;
+    
+    .book-card-container:hover img {
+        filter: brightness(1.1) contrast(1.05);
+        transform: scale(1.02);
     }
-    .book-author {
-        font-size: 0.82em;
-        color: #aab4c8;
-        margin-top: 4px;
+    
+    .book-card-container img {
+        width: 100%;
+        display: block;
+        transition: all 0.2s ease;
     }
-    .book-meta {
-        font-size: 0.72em;
-        color: #6b7899;
-        margin-top: 3px;
+    
+    .book-card-content {
+        padding: 20px 16px;
     }
-    .book-score {
-        margin-top: 10px;
-        font-size: 0.82em;
-        font-weight: 600;
-        color: #f0a500;
+    
+    .book-card-container .book-title {
+        font-size: 1.02em;
+        font-weight: 700;
+        color: #4FC3F7;
+        line-height: 1.4;
+        min-height: 3em;
+        margin: 0;
+    }
+    
+    .book-card-container .book-author {
+        font-size: 0.88em;
+        color: #BBDEFB;
+        margin-top: 8px;
+        margin-bottom: 0;
+        font-weight: 500;
+    }
+    
+    .book-card-container .book-meta {
+        font-size: 0.78em;
+        color: #90CAF9;
+        margin-top: 6px;
+        margin-bottom: 0;
+    }
+    
+    .book-card-container .book-score {
+        margin-top: 14px;
+        font-size: 0.88em;
+        font-weight: 700;
+        background: #4FC3F7;
+        color: #0A1128;
+        padding: 8px 16px;
+        border-radius: 18px;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(79, 195, 247, 0.2);
+        margin-bottom: 0;
     }
 
-    /* ---- Fallback alert ---- */
+    /* ---- Fallback Alert ---- */
     .fallback-alert {
         padding: 14px 18px;
-        background: linear-gradient(135deg, #3d2e00 0%, #4a3600 100%);
-        border: 1px solid #f0a500;
-        color: #ffd866;
+        background: #2E5EAA;
+        border: 1px solid rgba(79, 195, 247, 0.3);
+        color: #E8F1FF;
         border-radius: 10px;
         margin-bottom: 20px;
         font-size: 0.9em;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
-    /* ---- Section header ---- */
+    /* ---- Section Header ---- */
     .section-header {
-        font-size: 0.78em;
-        font-weight: 600;
+        font-size: 0.75em;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: #6b7899;
-        margin-bottom: 6px;
-        margin-top: 16px;
+        letter-spacing: 2px;
+        color: #4FC3F7;
+        margin-bottom: 8px;
+        margin-top: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .section-header::before {
+        content: '●';
+        font-size: 1.2em;
+        color: #4FC3F7;
     }
 
-    /* ---- Active user badge (main area) ---- */
+    /* ---- Active User Badge ---- */
     .active-user-badge {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
-        border: 1px solid rgba(126,184,255,0.2);
-        border-radius: 10px;
-        padding: 10px 18px;
-        margin-bottom: 18px;
+        gap: 12px;
+        background: #2E5EAA;
+        border: 1.5px solid rgba(79, 195, 247, 0.4);
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+    }
+    .active-user-badge:hover {
+        background: #3A6FBF;
+        border-color: rgba(79, 195, 247, 0.6);
     }
     .active-user-badge .badge-avatar {
-        font-size: 1.6em;
+        font-size: 1.8em;
     }
     .active-user-badge .badge-info {
         line-height: 1.4;
     }
     .active-user-badge .badge-name {
-        font-weight: 600;
-        color: #7eb8ff;
-        font-size: 0.95em;
+        font-weight: 700;
+        color: #4FC3F7;
+        font-size: 0.98em;
     }
     .active-user-badge .badge-detail {
         font-size: 0.78em;
-        color: #8888cc;
+        color: #90CAF9;
+    }
+
+    /* ---- Streamlit Button ---- */
+    button {
+        transition: all 0.2s ease;
+    }
+    button:hover {
+        box-shadow: 0 4px 12px rgba(79, 195, 247, 0.2) !important;
+    }
+
+    /* ---- Success/Error Messages ---- */
+    .stSuccess, [data-testid="stAlert"][type="success"] {
+        background: #2E5EAA !important;
+        border: 1px solid rgba(79, 195, 247, 0.3) !important;
+        color: #E8F1FF !important;
+        border-radius: 10px !important;
+    }
+
+    .stError, [data-testid="stAlert"][type="error"] {
+        background: #5D3A3A !important;
+        border: 1px solid rgba(244, 67, 54, 0.3) !important;
+        color: #FF8A80 !important;
+        border-radius: 10px !important;
+    }
+
+    .stWarning, [data-testid="stAlert"][type="warning"] {
+        background: #5D4D3A !important;
+        border: 1px solid rgba(255, 152, 0, 0.3) !important;
+        color: #FFB74D !important;
+        border-radius: 10px !important;
+    }
+
+    /* ---- Skeleton Loader ---- */
+    .skeleton-loader {
+        background: linear-gradient(90deg, #2E5EAA 0%, #4FC3F7 50%, #2E5EAA 100%);
+        background-size: 200% 100%;
+        animation: load 2s infinite;
+        border-radius: 10px;
+        height: 200px;
+    }
+
+    @keyframes load {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    /* ---- Headings ---- */
+    h1, h2, h3, h4, h5, h6 {
+        color: #E8F1FF;
+    }
+
+    /* ---- Radio Button ---- */
+    [data-testid="stRadio"] label {
+        color: #E8F1FF;
+        font-weight: 500;
+    }
+    [data-testid="stRadio"] {
+        gap: 8px;
+    }
+
+    /* ---- Radio Button Enhanced Styling ---- */
+    [data-testid="stRadio"] > label {
+        display: flex !important;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        margin: 6px 0;
+        border-radius: 10px;
+        background: transparent;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    [data-testid="stRadio"] > label:hover {
+        background: rgba(79, 195, 247, 0.15);
+        border-radius: 10px;
+    }
+
+    [data-testid="stRadio"] input[type="radio"] {
+        width: 18px !important;
+        height: 18px !important;
+        cursor: pointer;
+        accent-color: #4FC3F7 !important;
+    }
+
+    [data-testid="stRadio"] input[type="radio"]:checked {
+        accent-color: #2196F3 !important;
+    }
+
+    [data-testid="stRadio"] > label span:first-child {
+        min-width: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ---- Expander ---- */
+    [data-testid="stExpander"] {
+        background: #2E5EAA;
+        border: 1px solid rgba(79, 195, 247, 0.2);
+        border-radius: 10px;
+    }
+    [data-testid="stExpander"] summary {
+        color: #4FC3F7;
+        font-weight: 600;
+    }
+
+    /* ---- Number Input ---- */
+    [data-testid="stNumberInput"] input {
+        background: #1B3A70 !important;
+        color: #E8F1FF !important;
+        border: 1px solid rgba(79, 195, 247, 0.2) !important;
+    }
+    [data-testid="stNumberInput"] input:focus {
+        border-color: #4FC3F7 !important;
+        box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.3) !important;
+    }
+
+    /* ---- Mobile Responsive ---- */
+    @media (max-width: 768px) {
+        .active-user-badge {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .book-card {
+            padding: 12px 10px;
+        }
+    }
+
+    /* ---- Hide unwanted elements ---- */
+    [class*="stKeyboard"] {
+        display: none !important;
+    }
+    
+    /* ---- Button styling improvements ---- */
+    [data-testid="baseButton-primary"] {
+        background: #4FC3F7 !important;
+        color: #0A1128 !important;
+        font-weight: 600;
+    }
+    [data-testid="baseButton-primary"]:hover {
+        background: #2196F3 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -214,15 +440,12 @@ def render_persona_card(label: str, info: dict) -> None:
 
 
 def render_book_card(rec: dict) -> None:
-    """Render a single book recommendation card."""
+    """Render a single book recommendation card with image and details combined."""
     img_url = rec.get("Image_URL_L", "")
     if img_url and str(img_url).startswith("http"):
-        st.image(img_url, use_container_width=True)
+        image_html = f'<img src="{img_url}" style="width: 100%; height: 320px; object-fit: cover; border-radius: 12px 12px 0 0;">'
     else:
-        st.image(
-            "https://via.placeholder.com/150x200?text=No+Cover",
-            use_container_width=True,
-        )
+        image_html = '<img src="https://via.placeholder.com/150x200?text=No+Cover" style="width: 100%; height: 320px; object-fit: cover; border-radius: 12px 12px 0 0;">'
 
     title = rec.get("Book_Title", "Unknown Title")
     author = rec.get("Book_Author", "Unknown Author")
@@ -231,13 +454,17 @@ def render_book_card(rec: dict) -> None:
     score = rec.get("Score", 0.0)
 
     st.markdown(f"""
-    <div class="book-card">
-        <div class="book-title">{title}</div>
-        <div class="book-author">by {author}</div>
-        <div class="book-meta">{publisher} · {year}</div>
-        <div class="book-score">⭐ Score: {score:.4f}</div>
+    <div class="book-card-container">
+        {image_html}
+        <div class="book-card-content">
+            <div class="book-title">{title}</div>
+            <div class="book-author">by {author}</div>
+            <div class="book-meta">{publisher} · {year}</div>
+            <div class="book-score">⭐ Score: {score:.4f}</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
+
 
 
 def render_recommendations(recs: list) -> None:
@@ -274,7 +501,7 @@ with st.sidebar:
     st.markdown('<div class="section-header">👤 Switch User</div>', unsafe_allow_html=True)
 
     selected_label = st.radio(
-        "Choose a demo persona",
+        "",
         options=list(DEMO_USERS.keys()),
         index=0,
         label_visibility="collapsed",
@@ -294,7 +521,11 @@ with st.sidebar:
             step=1,
             help="Use 999999 to test the cold-start fallback.",
         )
-        use_custom = st.button("Fetch for Custom ID", type="secondary", use_container_width=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            use_custom = st.button("🔍 Fetch Custom", use_container_width=True, type="primary")
+        with col2:
+            st.write("")
 
     st.markdown("---")
     st.markdown(
@@ -341,7 +572,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # Fetch and display recommendations
-with st.spinner(f"Fetching personalized recommendations for User {active_user_id}…"):
+with st.spinner("Loading recommendations..."):
     data = fetch_recommendations(active_user_id)
 
 if data is None:
@@ -352,5 +583,5 @@ if data is None:
 else:
     recs = data.get("recommendations", [])
     if recs and not recs[0].get("Is_Fallback"):
-        st.success(f"Top 10 Personalized Recommendations for User {active_user_id}")
+        st.success(f"✨ Top 10 Personalized Recommendations for User {active_user_id}")
     render_recommendations(recs)
