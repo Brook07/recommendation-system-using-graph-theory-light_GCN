@@ -121,11 +121,6 @@ The graph construction pipeline is complete and runnable through `scripts/build_
 - `user_mapping.csv`
 - `book_mapping.csv`
 - `lightgcn_graph.pt`
-- `filtered_edge_index.csv`
-- `filtered_edge_weight.csv`
-- `filtered_user_mapping.csv`
-- `filtered_book_mapping.csv`
-- `filtered_lightgcn_graph.pt`
 
 ## 6. Recommendation Model Implementation
 
@@ -249,10 +244,15 @@ recommendation-system-using-graph-theory/
 │       ├── user_mapping.csv
 │       ├── book_mapping.csv
 │       ├── lightgcn_graph.pt
-│       ├── baseline_metrics.csv
-│       ├── lightgcn_metrics.csv
-│       ├── lightgcn_comparison.csv
-│       └── model checkpoints (.pt)
+│       └── model_training/
+│           ├── models/
+│           ├── embeddings/
+│           ├── metrics/
+│           ├── plots/
+│           ├── logs/
+│           ├── recommendations/
+│           ├── reports/
+│           └── splits/
 ├── docs/
 │   ├── DEMO_SCRIPT.md
 │   ├── DIAGRAMS.md
@@ -261,8 +261,6 @@ recommendation-system-using-graph-theory/
 │   └── USER_GUIDE.md
 ├── frontend/
 │   └── app.py
-├── models/
-│   └── best_lightgcn_model.pt
 ├── notebooks/
 │   └── 01_book_crossing_preprocessing.ipynb
 ├── reports/
@@ -328,11 +326,9 @@ recommendation-system-using-graph-theory/
 
 | Artifact | Status | Purpose |
 |---|---:|---|
-| `data/processed/baseline_metrics.csv` | ✅ Completed | Baseline evaluation output. |
-| `data/processed/lightgcn_metrics.csv` | ✅ Completed | LightGCN evaluation output. |
-| `data/processed/lightgcn_metrics_dim64.csv` | ✅ Completed | Experiment result for one LightGCN setting. |
-| `data/processed/lightgcn_metrics_dim128.csv` | ✅ Completed | Experiment result for one LightGCN setting. |
-| `data/processed/lightgcn_comparison.csv` | ✅ Completed | Comparison table between models. |
+| `data/processed/model_training/metrics/baseline_metrics.csv` | ✅ Completed | Baseline evaluation output. |
+| `data/processed/model_training/metrics/lightgcn_metrics*.csv` | ✅ Completed | LightGCN evaluation outputs. |
+| `data/processed/model_training/metrics/lightgcn_comparison.csv` | ✅ Completed | Comparison table between models. |
 | `reports/figures/` | ✅ Completed | Saved charts and recommendation examples. |
 
 ### Testing status
@@ -390,6 +386,7 @@ streamlit run frontend/app.py
 ## Documentation
 
 - [Implementation roadmap](docs/IMPLEMENTATION.md)
+- [Model training output structure](docs/MODEL_TRAINING_OUTPUTS.md)
 - [System diagrams](docs/DIAGRAMS.md)
 - [User guide](docs/USER_GUIDE.md)
 - [Demo script](docs/DEMO_SCRIPT.md)

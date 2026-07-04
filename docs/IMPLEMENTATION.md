@@ -28,6 +28,6 @@ This document describes the high-level roadmap and the implementation details of
 ## 2. System Architecture
 
 - **Data Layer**: Cleaned interactions stored in CSV files, precomputed graph structures in `.pt` and `.csv`.
-- **Model Layer**: LightGCN `.pt` weights stored in `models/`.
+- **Model Layer**: LightGCN `.pt` weights and training artifacts stored in `data/processed/model_training/`.
 - **API Layer**: FastAPI handles HTTP GET requests, parses User IDs, and returns JSON recommendations.
 - **Presentation Layer**: Streamlit consumes the REST API and renders results in an interactive card grid.

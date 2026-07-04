@@ -21,7 +21,7 @@ engine = None
 @app.on_event("startup")
 def load_model():
     global engine
-    engine = InferenceEngine(model_path="models/best_lightgcn_model.pt")
+    engine = InferenceEngine()
 
 class Recommendation(BaseModel):
     ISBN: str
