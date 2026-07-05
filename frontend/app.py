@@ -48,11 +48,15 @@ SELECTED_USER_IDS = [11676, 153662, 95359]
 
 st.set_page_config(
     page_title="GraphRec | Intelligent Discovery",
-    page_icon="📚",
+    page_icon="\U0001f4da",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
+
+# ---------------------------------------------------------------------------
+# Styles
+# ---------------------------------------------------------------------------
 
 def inject_styles() -> None:
     """Inject application CSS."""
@@ -100,6 +104,8 @@ footer {{
     max-width: 1500px;
     padding: 0 1.9rem 5rem;
 }}
+
+/* ── Navigation ───────────────────────────────────────────────────────── */
 
 .top-nav {{
     height: 82px;
@@ -162,6 +168,8 @@ footer {{
     background: rgba(255, 255, 255, 0.04);
 }}
 
+/* ── Section Titles ───────────────────────────────────────────────────── */
+
 .section-title {{
     color: rgba(238, 243, 255, 0.62);
     font-size: 1.45rem;
@@ -169,13 +177,68 @@ footer {{
     margin: 0 0 1.6rem;
 }}
 
+/* ── Segmented User Selector (st.radio override) ──────────────────────── */
+
+div[data-testid="stRadio"] > label {{
+    display: none !important;
+}}
+
+div[data-testid="stRadio"] > div {{
+    display: flex !important;
+    gap: 0.55rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.42rem 0.5rem;
+}}
+
+div[data-testid="stRadio"] > div > label {{
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 999px !important;
+    padding: 0.55rem 1.3rem !important;
+    color: var(--muted) !important;
+    font-weight: 700 !important;
+    font-size: 0.86rem !important;
+    cursor: pointer !important;
+    transition: all 180ms ease !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}}
+
+div[data-testid="stRadio"] > div > label:hover {{
+    color: var(--text) !important;
+    background: rgba(255, 255, 255, 0.055) !important;
+}}
+
+div[data-testid="stRadio"] > div > label[data-checked="true"] {{
+    background: rgba(0, 241, 254, 0.10) !important;
+    border-color: rgba(0, 241, 254, 0.45) !important;
+    color: var(--cyan) !important;
+    box-shadow: 0 0 16px rgba(0, 241, 254, 0.18) !important;
+}}
+
+/* Hide the native radio dot */
+div[data-testid="stRadio"] > div > label > div:first-child {{
+    display: none !important;
+}}
+
+div[data-testid="stRadio"] > div > label > div[data-testid="stMarkdownContainer"] p {{
+    font-size: 0.86rem !important;
+    font-weight: 700 !important;
+}}
+
+/* ── Profile Cards ────────────────────────────────────────────────────── */
+
 .persona-card {{
-    height: 245px;
     border-radius: 2rem;
     padding: 1.75rem 1.85rem;
     background: rgba(255, 255, 255, 0.055);
     border: 1px solid var(--border);
-    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    transition: border-color 220ms ease, background 220ms ease,
+                box-shadow 220ms ease, opacity 220ms ease;
     position: relative;
     overflow: hidden;
 }}
@@ -186,16 +249,15 @@ footer {{
     box-shadow: 0 0 34px rgba(0, 102, 255, 0.18);
 }}
 
-.persona-card:hover {{
-    transform: translateY(-3px);
-    border-color: rgba(179, 197, 255, 0.38);
+.persona-card.inactive {{
+    opacity: 0.50;
 }}
 
 .persona-top {{
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
 }}
 
 .profile-id-badge {{
@@ -207,7 +269,9 @@ footer {{
     place-items: center;
     color: var(--cyan);
     font-weight: 900;
-    font-size: 0.76rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-align: center;
     background: rgba(0, 241, 254, 0.08);
     box-shadow: 0 0 18px rgba(0, 241, 254, 0.16);
 }}
@@ -268,32 +332,12 @@ footer {{
     color: var(--text);
     font-size: 0.78rem;
     font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }}
 
-div[data-testid="stButton"] > button {{
-    width: 100%;
-    height: 2.45rem;
-    border-radius: 999px;
-    border: 1px solid rgba(179, 197, 255, 0.22);
-    background: rgba(255, 255, 255, 0.045);
-    color: var(--primary);
-    font-weight: 800;
-    letter-spacing: 0.03em;
-}}
-
-div[data-testid="stButton"] > button:hover {{
-    border-color: var(--cyan);
-    color: var(--cyan);
-    background: rgba(0, 241, 254, 0.08);
-}}
-
-.results-head {{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 1rem;
-    margin: 1.5rem 0 1.2rem;
-}}
+/* ── Active User Strip ────────────────────────────────────────────────── */
 
 .active-user-strip {{
     max-width: 780px;
@@ -318,6 +362,22 @@ div[data-testid="stButton"] > button:hover {{
     border-radius: 50%;
     background: var(--cyan);
     box-shadow: 0 0 14px rgba(0, 241, 254, 0.75);
+    animation: pulse-dot 2.2s ease-in-out infinite;
+}}
+
+@keyframes pulse-dot {{
+    0%, 100% {{ opacity: 1; box-shadow: 0 0 14px rgba(0, 241, 254, 0.75); }}
+    50% {{ opacity: 0.65; box-shadow: 0 0 6px rgba(0, 241, 254, 0.35); }}
+}}
+
+/* ── Results ──────────────────────────────────────────────────────────── */
+
+.results-head {{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin: 1.5rem 0 1.2rem;
 }}
 
 .results-title {{
@@ -330,6 +390,8 @@ div[data-testid="stButton"] > button:hover {{
     color: var(--muted);
     font-size: 0.9rem;
 }}
+
+/* ── Book Cards ───────────────────────────────────────────────────────── */
 
 .book-card {{
     height: 585px;
@@ -467,9 +529,7 @@ div[data-testid="stButton"] > button:hover {{
     margin-bottom: 1.2rem;
 }}
 
-.mobile-note {{
-    display: none;
-}}
+/* ── Responsive ───────────────────────────────────────────────────────── */
 
 @media (max-width: 960px) {{
     .top-nav {{
@@ -500,11 +560,15 @@ div[data-testid="stButton"] > button:hover {{
         padding-right: 1rem;
     }}
     .persona-card {{
-        height: auto;
         min-height: 168px;
     }}
     .results-head {{
         display: block;
+    }}
+    div[data-testid="stRadio"] > div {{
+        border-radius: 1.2rem;
+        flex-direction: column;
+        gap: 0.35rem;
     }}
 }}
 </style>
@@ -512,6 +576,10 @@ div[data-testid="stButton"] > button:hover {{
         unsafe_allow_html=True,
     )
 
+
+# ---------------------------------------------------------------------------
+# Data helpers
+# ---------------------------------------------------------------------------
 
 def normalize_recommendation(rec: dict[str, Any]) -> dict[str, Any]:
     """Normalize backend and local recommendation key styles."""
@@ -652,6 +720,10 @@ def get_recommendations(user_id: int, top_k: int = DEFAULT_TOP_K) -> tuple[list[
     return [], "unavailable"
 
 
+# ---------------------------------------------------------------------------
+# Display helpers
+# ---------------------------------------------------------------------------
+
 def format_similarity_score(score: float) -> str:
     """Format the actual recommender score for display."""
 
@@ -679,6 +751,10 @@ def recommendation_explanation(book: dict[str, Any], rank: int) -> str:
     return "High embedding similarity in the user-book interaction graph."
 
 
+# ---------------------------------------------------------------------------
+# Component renderers
+# ---------------------------------------------------------------------------
+
 def render_nav() -> None:
     """Render the top navigation bar."""
 
@@ -692,7 +768,7 @@ def render_nav() -> None:
         <span class="nav-link">Analytics</span>
     </nav>
     <div class="nav-actions">
-        <div class="icon-bubble">⚙</div>
+        <div class="icon-bubble">\u2699</div>
         <div class="icon-bubble">GR</div>
     </div>
 </header>
@@ -701,26 +777,48 @@ def render_nav() -> None:
     )
 
 
-def render_persona_card(persona: dict[str, Any], active: bool) -> None:
-    """Render a persona summary card."""
+def render_profile_card(profile: dict[str, Any], active: bool) -> None:
+    """Render a data-driven user profile card (display-only, non-clickable)."""
 
-    active_class = " active" if active else ""
+    state_class = " active" if active else " inactive"
     active_badge = '<span class="active-pill">ACTIVE</span>' if active else ""
+
+    fav_author = escape(profile["top_authors"][0]) if profile["top_authors"] else "\u2014"
+    fav_publisher = escape(profile["top_publishers"][0]) if profile["top_publishers"] else "\u2014"
+
     html = (
-        f'<div class="persona-card{active_class}">'
+        f'<div class="persona-card{state_class}">'
         '<div class="persona-top">'
-        f'<img class="persona-avatar" src="{escape(persona["avatar"])}" alt="{escape(persona["name"])}" />'
+        f'<div class="profile-id-badge">ID<br>{profile["user_id"]}</div>'
         f"{active_badge}"
         "</div>"
-        f'<div class="persona-name">{escape(persona["name"])}</div>'
-        f'<div class="persona-focus">{escape(persona["focus"])}</div>'
-        f'<div class="persona-focus" style="margin-top:.55rem;color:#7f8bad;">User {persona["user_id"]} · {persona["ratings"]} ratings</div>'
+        f'<div class="profile-title">{escape(profile["title"])}</div>'
+        f'<div class="profile-line">User {profile["user_id"]} \u00b7 {escape(profile["activity_level"])}</div>'
+        '<div class="profile-stat-grid">'
+        '<div class="profile-stat">'
+        '<div class="profile-stat-label">TOTAL RATINGS</div>'
+        f'<div class="profile-stat-value">{profile["total_ratings"]}</div>'
+        "</div>"
+        '<div class="profile-stat">'
+        '<div class="profile-stat-label">AVG RATING</div>'
+        f'<div class="profile-stat-value">{profile["avg_rating"]:.1f}</div>'
+        "</div>"
+        '<div class="profile-stat">'
+        '<div class="profile-stat-label">FAVORITE AUTHOR</div>'
+        f'<div class="profile-stat-value">{fav_author}</div>'
+        "</div>"
+        '<div class="profile-stat">'
+        '<div class="profile-stat-label">YEAR RANGE</div>'
+        f'<div class="profile-stat-value">{escape(profile["year_range"])}</div>'
+        "</div>"
+        "</div>"
+        f'<div class="profile-line muted">Top publisher: {fav_publisher}</div>'
         "</div>"
     )
     st.markdown(html, unsafe_allow_html=True)
 
 
-def render_book_card(book: dict[str, Any], persona: dict[str, Any], rank: int, total: int) -> None:
+def render_book_card(book: dict[str, Any], profile: dict[str, Any], rank: int, total: int) -> None:
     """Render one uniform recommendation card."""
 
     image = book["image"] if book["image"].startswith("http") else "https://via.placeholder.com/360x540/101827/b3c5ff?text=GraphRec"
@@ -741,7 +839,7 @@ def render_book_card(book: dict[str, Any], persona: dict[str, Any], rank: int, t
     </div>
     <div class="book-body">
         <div class="book-title">{title}</div>
-        <div class="book-author">{author} · {year}</div>
+        <div class="book-author">{author} \u00b7 {year}</div>
         <div class="metadata-chips">{chip_html}</div>
         <div class="explanation">{escape(explanation)}</div>
     </div>
@@ -751,14 +849,9 @@ def render_book_card(book: dict[str, Any], persona: dict[str, Any], rank: int, t
     )
 
 
-def rerun_app() -> None:
-    """Rerun the app across Streamlit versions."""
-
-    if hasattr(st, "rerun"):
-        st.rerun()
-    else:
-        getattr(st, "experimental_rerun")()
-
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
 def main() -> None:
     """Render GraphRec."""
@@ -766,42 +859,66 @@ def main() -> None:
     inject_styles()
     render_nav()
 
-    if "active_persona" not in st.session_state:
-        st.session_state.active_persona = PERSONAS[0]["key"]
+    # ── Build data-driven profiles from the Book-Crossing dataset ──
+    profiles = build_user_profiles(tuple(SELECTED_USER_IDS))
 
-    st.markdown('<h2 class="section-title">Active Intelligence Persona</h2>', unsafe_allow_html=True)
-    persona_cols = st.columns(3, gap="large")
-    for col, persona in zip(persona_cols, PERSONAS):
-        active = st.session_state.active_persona == persona["key"]
+    # Build labels for the segmented selector: "User 11676 · Contemporary Reader"
+    selector_keys = [p["key"] for p in profiles]
+    selector_labels = {p["key"]: f"User {p['user_id']}  \u00b7  {p['title']}" for p in profiles}
+
+    # ── Single segmented selector ─────────────────────────────────
+    st.markdown('<h2 class="section-title">Select a Reader Profile</h2>', unsafe_allow_html=True)
+
+    selected_key = st.radio(
+        "Active User",
+        options=selector_keys,
+        format_func=lambda k: selector_labels[k],
+        horizontal=True,
+        label_visibility="collapsed",
+        key="user_selector",
+    )
+
+    # Resolve the active profile
+    active_profile = next(p for p in profiles if p["key"] == selected_key)
+    active_user_id = int(active_profile["user_id"])
+
+    # ── Profile cards (read-only, visual highlight for active) ────
+    st.markdown(
+        '<h2 class="section-title" style="margin-top:1.2rem;">Reader Profiles</h2>',
+        unsafe_allow_html=True,
+    )
+    profile_cols = st.columns(3, gap="large")
+    for col, profile in zip(profile_cols, profiles):
         with col:
-            render_persona_card(persona, active)
-            if st.button(f"Select {persona['name']}", key=f"select_{persona['key']}"):
-                st.session_state.active_persona = persona["key"]
-                rerun_app()
+            render_profile_card(profile, active=(profile["key"] == selected_key))
 
-    active_persona = next(item for item in PERSONAS if item["key"] == st.session_state.active_persona)
-    active_user_id = int(active_persona["user_id"])
+    # ── Active user status strip ──────────────────────────────────
     st.markdown(
         f"""
 <div class="active-user-strip">
     <span class="active-user-dot"></span>
-    Recommendations are live for {escape(active_persona['name'])} · User {active_user_id}
+    Recommendations are live for User {active_user_id} \u00b7 {escape(active_profile['title'])}
 </div>
 """,
         unsafe_allow_html=True,
     )
 
+    # ── Recommendations ───────────────────────────────────────────
     with st.spinner("Loading recommendations..."):
         recommendations, source = get_recommendations(active_user_id, DEFAULT_TOP_K)
 
     ranked_recommendations = sorted(recommendations, key=lambda item: item["score"], reverse=True)
-    source_label = "Backend API" if source == "api" else "Local recommender" if source == "local" else "Unavailable"
+    source_label = (
+        "Backend API" if source == "api"
+        else "Local recommender" if source == "local"
+        else "Unavailable"
+    )
     st.markdown(
         f"""
 <div class="results-head">
     <div>
         <div class="results-title">Discovery Feed</div>
-        <div class="results-meta">{escape(active_persona['name'])} · User {active_user_id} · {len(ranked_recommendations)} recommendations</div>
+        <div class="results-meta">User {active_user_id} \u00b7 {escape(active_profile['title'])} \u00b7 {len(ranked_recommendations)} recommendations</div>
     </div>
     <div class="results-meta">Source: {source_label}</div>
 </div>
@@ -811,18 +928,19 @@ def main() -> None:
 
     if recommendations and recommendations[0]["fallback"]:
         st.markdown(
-            '<div class="status-card">Cold-start or embedding fallback is active. Results are ranked by popularity until LightGCN embeddings are available.</div>',
+            '<div class="status-card">Cold-start or embedding fallback is active. '
+            "Results are ranked by popularity until LightGCN embeddings are available.</div>",
             unsafe_allow_html=True,
         )
 
     if not ranked_recommendations:
-        st.warning("No recommendations returned for this persona.")
+        st.warning("No recommendations returned for this user.")
         return
 
     grid_cols = st.columns(4, gap="large")
     for idx, book in enumerate(ranked_recommendations):
         with grid_cols[idx % 4]:
-            render_book_card(book, active_persona, idx + 1, len(ranked_recommendations))
+            render_book_card(book, active_profile, idx + 1, len(ranked_recommendations))
 
 
 if __name__ == "__main__":

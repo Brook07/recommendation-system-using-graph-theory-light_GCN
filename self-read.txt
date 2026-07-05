@@ -13,4 +13,4 @@
 
 AI-model- used 
 1.Codex
-hadi,samjahana,utsav
+hadi,samjahana,utsav,utsav.student,brook  
