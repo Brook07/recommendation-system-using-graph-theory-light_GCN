@@ -16,7 +16,11 @@ import pandas as pd
 from tqdm import trange
 
 PROCESSED_DIR = Path("data/processed")
-FIGURES_DIR = Path("reports/figures")
+MODEL_TRAINING_DIR = PROCESSED_DIR / "model_training"
+METRICS_DIR = MODEL_TRAINING_DIR / "metrics"
+PLOTS_DIR = MODEL_TRAINING_DIR / "plots"
+SPLITS_DIR = MODEL_TRAINING_DIR / "splits"
+RECOMMENDATIONS_DIR = MODEL_TRAINING_DIR / "recommendations"
 
 
 @dataclass
@@ -50,6 +54,9 @@ def train_test_split_per_user(df: pd.DataFrame, test_frac: float = 0.2, seed: in
         test_rows.extend(test_idx.tolist())
     train_df = df.loc[train_rows].reset_index(drop=True)
     test_df = df.loc[test_rows].reset_index(drop=True)
+    SPLITS_DIR.mkdir(parents=True, exist_ok=True)
+    train_df.to_csv(SPLITS_DIR / "svd_baseline_train.csv", index=False)
+    test_df.to_csv(SPLITS_DIR / "svd_baseline_test.csv", index=False)
     return train_df, test_df
 
 
@@ -221,23 +228,27 @@ def evaluate(model: MatrixFactorization, train_df: pd.DataFrame, test_df: pd.Dat
     }
 
 
-def save_metrics(metrics: Dict[str, float], output_path: Path = PROCESSED_DIR / "baseline_metrics.csv") -> Path:
+def save_metrics(metrics: Dict[str, float], output_path: Path = METRICS_DIR / "baseline_metrics.csv") -> Path:
     df = pd.DataFrame([metrics])
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
     return output_path
 
 
-def plot_sample_recommendations(recommendations: Dict[int, List[str]], sample_users: List[int], figures_dir: Path = FIGURES_DIR) -> Path:
+def plot_sample_recommendations(recommendations: Dict[int, List[str]], sample_users: List[int], figures_dir: Path = PLOTS_DIR) -> Path:
     figures_dir.mkdir(parents=True, exist_ok=True)
+    RECOMMENDATIONS_DIR.mkdir(parents=True, exist_ok=True)
+    rows = []
     for u in sample_users:
         recs = recommendations.get(u, [])
+        rows.extend({"User-ID": u, "rank": rank, "ISBN": isbn} for rank, isbn in enumerate(recs, start=1))
         fig, ax = plt.subplots(figsize=(8, 3))
         ax.bar(range(len(recs)), [1] * len(recs))
         ax.set_xticks(range(len(recs)))
         ax.set_xticklabels(recs, rotation=45, ha='right')
         ax.set_title(f"Top-{len(recs)} Recommendations for User {u}")
         plt.tight_layout()
-        out = figures_dir / f"sample_recs_user_{u}.png"
+        out = figures_dir / f"svd_sample_recs_user_{u}.png"
         fig.savefig(out, dpi=150, bbox_inches="tight")
+    pd.DataFrame(rows).to_csv(RECOMMENDATIONS_DIR / "svd_sample_recommendations.csv", index=False)
     return figures_dir

@@ -46,4 +46,4 @@ Streamlit will launch your default web browser and navigate to `http://localhost
 ## 5. Troubleshooting
 
 - **Connection Error**: If Streamlit displays a connection error, ensure the FastAPI server is running on port 8000.
-- **Model Not Found**: Ensure the trained model is located at `models/best_lightgcn_model.pt`.
+- **Model Not Found**: Ensure LightGCN training has produced `data/processed/model_training/models/lightgcn_pyg.pt` and embeddings under `data/processed/model_training/embeddings/`.

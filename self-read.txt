@@ -1,0 +1,16 @@
+----------current status----------------
+
+1.i have done data collection from kaggel 
+2.i have done data cleaning and data preprocessing part ( i have to know how it has been done fully to implement model training and for good evaluation metrics
+3.model training has been done and we have used light GCN model 
+4.UI implemention done but working roiughly for now 
+5.streamlit UI and python backend made and API working suucessfully most of the time 
+
+------------thing to be done-----------
+
+1. how the data has been cleaned and how the graph theory concepts are being used on this 
+2. mode has been made but don't knwo how its performing and working 
+
+AI-model- used 
+1.Codex
+hadi,samjahana,utsav,utsav.student,brook  

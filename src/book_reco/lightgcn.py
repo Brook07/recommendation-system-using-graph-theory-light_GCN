@@ -8,6 +8,7 @@ loss and negative sampling, and provides evaluation utilities.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -19,7 +20,14 @@ import torch
 from torch import nn
 
 PROCESSED_DIR = Path("data/processed")
-FIGURES_DIR = Path("reports/figures")
+MODEL_TRAINING_DIR = PROCESSED_DIR / "model_training"
+MODELS_DIR = MODEL_TRAINING_DIR / "models"
+EMBEDDINGS_DIR = MODEL_TRAINING_DIR / "embeddings"
+METRICS_DIR = MODEL_TRAINING_DIR / "metrics"
+PLOTS_DIR = MODEL_TRAINING_DIR / "plots"
+LOGS_DIR = MODEL_TRAINING_DIR / "logs"
+SPLITS_DIR = MODEL_TRAINING_DIR / "splits"
+RECOMMENDATIONS_DIR = MODEL_TRAINING_DIR / "recommendations"
 CLEANED_PATH = PROCESSED_DIR / "cleaned_ratings.csv"
 USER_MAP_PATH = PROCESSED_DIR / "user_mapping.csv"
 BOOK_MAP_PATH = PROCESSED_DIR / "book_mapping.csv"
@@ -45,7 +53,7 @@ def load_mappings(user_map_path: Path = USER_MAP_PATH, book_map_path: Path = BOO
     return user_map, book_map
 
 
-def build_adjacency(num_nodes: int, edge_index_path: Path = EDGE_INDEX_PATH) -> torch.sparse.FloatTensor:
+def build_adjacency(num_nodes: int, edge_index_path: Path = EDGE_INDEX_PATH) -> torch.Tensor:
     df = pd.read_csv(edge_index_path)
     # ensure columns 'source','target'
     src = torch.LongTensor(df['source'].to_numpy())
@@ -75,7 +83,7 @@ class LightGCNModel(nn.Module):
         self.embedding = nn.Embedding(num_nodes, emb_dim)
         nn.init.xavier_uniform_(self.embedding.weight)
 
-    def forward(self, adj: torch.sparse.FloatTensor) -> torch.Tensor:
+    def forward(self, adj: torch.Tensor) -> torch.Tensor:
         # perform propagation and return final embeddings (num_nodes x emb_dim)
         all_embeddings = [self.embedding.weight]
         emb = self.embedding.weight
@@ -149,6 +157,12 @@ def train_lightgcn(
     interactions = interactions.dropna(subset=['user_node', 'item_node']).astype({'user_node': int, 'item_node': int})
 
     train_df, val_df, test_df = split_interactions(interactions, val_frac=0.1, test_frac=0.1)
+
+    SPLITS_DIR.mkdir(parents=True, exist_ok=True)
+    run_name = f"lightgcn_dim{emb_dim}_layers{n_layers}"
+    train_df.to_csv(SPLITS_DIR / f"{run_name}_train.csv", index=False)
+    val_df.to_csv(SPLITS_DIR / f"{run_name}_validation.csv", index=False)
+    test_df.to_csv(SPLITS_DIR / f"{run_name}_test.csv", index=False)
 
     # build adjacency from saved edge_index
     adj = build_adjacency(num_nodes)
@@ -269,18 +283,30 @@ def train_lightgcn(
         }
 
     # save model and metrics
-    out_model = PROCESSED_DIR / f'lightgcn_model_dim{emb_dim}.pt'
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    METRICS_DIR.mkdir(parents=True, exist_ok=True)
+    EMBEDDINGS_DIR.mkdir(parents=True, exist_ok=True)
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    PLOTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    out_model = MODELS_DIR / f'{run_name}.pt'
     torch.save({'model_state_dict': model.state_dict(), 'emb_dim': emb_dim}, out_model)
-    out_metrics = PROCESSED_DIR / f'lightgcn_metrics_dim{emb_dim}.csv'
+    out_metrics = METRICS_DIR / f'{run_name}_metrics.csv'
     pd.DataFrame([metrics]).to_csv(out_metrics, index=False)
+    with (METRICS_DIR / f'{run_name}_metrics.json').open("w", encoding="utf-8") as metrics_file:
+        json.dump(metrics, metrics_file, indent=2)
+    pd.DataFrame({"epoch": range(1, len(training_losses) + 1), "bpr_loss": training_losses}).to_csv(
+        LOGS_DIR / f"{run_name}_training_loss.csv",
+        index=False,
+    )
+    torch.save({"node_embeddings": final_embeddings.cpu()}, EMBEDDINGS_DIR / f"{run_name}_node_embeddings.pt")
     # save training loss plot
-    FIGURES_DIR.mkdir(parents=True, exist_ok=True)
     plt.figure()
     plt.plot(range(1, len(training_losses) + 1), training_losses, marker='o')
     plt.xlabel('Epoch')
     plt.ylabel('BPR Loss')
     plt.title(f'Training Loss (dim={emb_dim})')
-    loss_path = FIGURES_DIR / f'training_loss_dim{emb_dim}.png'
+    loss_path = PLOTS_DIR / f'{run_name}_training_loss.png'
     plt.savefig(loss_path, dpi=150, bbox_inches='tight')
 
     return LightGCNArtifacts(model_state={'path': str(out_model)}, metrics=metrics, training_losses=training_losses, embedding_dim=emb_dim)
@@ -314,4 +340,13 @@ def recommend_topk_from_model(artifact: LightGCNArtifacts, topk: int = 10) -> Di
         topk_idx = np.argsort(-item_scores)[:topk]
         topk_nodes = item_indices[topk_idx]
         recs[u_orig] = [inv_item_map[int(x)] for x in topk_nodes]
+    RECOMMENDATIONS_DIR.mkdir(parents=True, exist_ok=True)
+    rows = [
+        {"User-ID": user_id, "rank": rank, "ISBN": isbn}
+        for user_id, isbns in recs.items()
+        for rank, isbn in enumerate(isbns, start=1)
+    ]
+    pd.DataFrame(rows).to_csv(RECOMMENDATIONS_DIR / f"sample_recommendations_top{topk}.csv", index=False)
+    with (RECOMMENDATIONS_DIR / f"sample_recommendations_top{topk}.json").open("w", encoding="utf-8") as output_file:
+        json.dump({str(user_id): isbns for user_id, isbns in recs.items()}, output_file, indent=2)
     return recs

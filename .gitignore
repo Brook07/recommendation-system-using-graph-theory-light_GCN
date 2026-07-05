@@ -1,6 +1,9 @@
 cleaned_ratings.csv
 data/processed/*.csv
 data/processed/*.pt
+data/processed/model_training/**/*
+!data/processed/model_training/**/
+!data/processed/model_training/**/.gitkeep
 reports/figures/*.png
 .ipynb_checkpoints/
 .venv/
@@ -11,3 +14,4 @@ __pycache__/
 *.pyd
 .pytest_cache/
 .DS_Store
+.self-read.txt
