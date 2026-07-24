@@ -1,0 +1,81 @@
+=== DATA VALIDATION REPORT ===
+
+Total Books: 7,928
+Total Users: 36,111
+Total Ratings: 172,419
+Average Rating: 3.53
+
+--- Rating Distribution ---
+Rating 0.0: 16,026
+Rating 0.5: 264
+Rating 1.0: 397
+Rating 1.5: 1,129
+Rating 2.0: 2,251
+Rating 2.5: 9,678
+Rating 3.0: 14,967
+Rating 3.5: 31,646
+Rating 4.0: 42,367
+Rating 4.5: 31,235
+Rating 5.0: 22,459
+
+--- Genres ---
+Number of Main Genres: 30
+Number of Sub Genres: 151
+
+--- Duplicates & Integrity ---
+Duplicate ISBNs in books: 0
+Duplicate User-ISBN ratings: 19
+Dataset Integrity (ISBNs in ratings missing in books): 0
+
+--- Missing Values (Books) ---
+ISBN: 0
+Unnamed: 0: 0
+Title: 0
+Author: 21
+Main Genre: 0
+Sub Genre: 0
+Type: 0
+Price: 0
+Rating: 0
+Amazon_Rating_Count: 0
+URLs: 0
+Number of Sub-genres: 0
+Genre_URL: 0
+Price_num: 0
+
+--- Missing Values (Ratings) ---
+ISBN: 0
+User-ID: 0
+Book-Rating: 0
+
+--- Activity Stats ---
+Books with at least one rating: 7,928
+Users with at least one rating: 36,111
+Average Ratings per Book: 21.75
+Average Ratings per User: 4.77
+Minimum Rating: 0.0
+Maximum Rating: 5.0
+
+--- Top 10 Most Rated Books ---
+The Very Hungry Caterpillar [Board book] Eric Carle: 2,754 ratings
+The Great Indian Cricket Circus: Amazing Facts, Stats and Everything in Between: 1,445 ratings
+201 Amazing Activity Book - Fun Activities and Puzzles For Children: Spot The Difference, Logical Reasoning, Patterns & Tracing: 1,024 ratings
+Elon Musk (B): 886 ratings
+My First 365 Coloring Book Jumbo Coloring Book For Kids With Tear Out Sheets: 790 ratings
+Tom Gates 2: Excellent Excuses (And Other Good Stuff) (Tom Gates series): 766 ratings
+Baby Touch: Tummy Time [Board book] Ladybird: 745 ratings
+PW NCERT Punch Physics, Chemistry and Biology Set of 3 Books Combo for Competitive Exams (NEET and CUET) | Includes A&R and Statement Type Questions Edition 2023-2024: 732 ratings
+My First Illustrated Bible Stories Old Testament Boxed Set of 10 Books: 699 ratings
+BTR BONUS PLUS BTR ANNOTED FILLED BOOKS FULLY COLOUR DR ZAINAB VORA ANNOTED ALL-19 SUBJECTS: 618 ratings
+
+--- Top 10 Most Active Users ---
+User 278418: 4,047 ratings
+User 11676: 1,358 ratings
+User 198711: 781 ratings
+User 35859: 647 ratings
+User 153662: 514 ratings
+User 76352: 510 ratings
+User 277427: 497 ratings
+User 235105: 491 ratings
+User 230522: 447 ratings
+User 16795: 428 ratings

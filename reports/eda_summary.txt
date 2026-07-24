@@ -1,0 +1,27 @@
+=== EXPLORATORY DATA ANALYSIS (EDA) SUMMARY ===
+
+Generated Plots:
+- reports/eda/10_avg_rating_by_main_genre.png
+- reports/eda/11_top_sub_genres_by_avg_rating.png
+- reports/eda/12_correlation_heatmap.png
+- reports/eda/13_price_distribution.png
+- reports/eda/14_book_type_distribution.png
+- reports/eda/1_rating_distribution.png
+- reports/eda/2_books_per_main_genre.png
+- reports/eda/3_books_per_sub_genre_top20.png
+- reports/eda/4_top_15_authors.png
+- reports/eda/5_top_20_most_rated_books.png
+- reports/eda/6_top_20_most_active_users.png
+- reports/eda/7_user_activity_distribution.png
+- reports/eda/8_ratings_per_book_distribution.png
+- reports/eda/9_long_tail_popularity.png
+
+Generated Tables:
+- reports/tables/avg_rating_by_main_genre.csv
+- reports/tables/book_type_distribution.csv
+- reports/tables/top_20_most_rated_books.csv
+
+Key Insights:
+- Data covers a wide range of genres, with long-tail distributions in book popularity and user activity.
+- Validation confirms relational integrity between the Enhanced Ratings and Enhanced Books datasets.
+- Please refer to the saved PNGs for visual inspection of the dataset distributions.

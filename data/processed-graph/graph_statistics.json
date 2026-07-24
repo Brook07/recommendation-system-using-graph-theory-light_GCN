@@ -1,0 +1,10 @@
+{
+    "num_users": 36111,
+    "num_books": 7928,
+    "num_nodes": 44039,
+    "num_edges": 172400,
+    "graph_density": 0.0006021907840442971,
+    "average_degree": 3.914711959853766,
+    "connected_components": 83,
+    "average_rating": 3.5314965197215775
+}

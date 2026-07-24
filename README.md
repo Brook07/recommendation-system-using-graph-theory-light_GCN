@@ -390,6 +390,7 @@ streamlit run frontend/app.py
 - [System diagrams](docs/DIAGRAMS.md)
 - [User guide](docs/USER_GUIDE.md)
 - [Demo script](docs/DEMO_SCRIPT.md)
+- [Model Explanation: Training and Inference](docs/MODEL_EXPLANATION_README.md)
 
 ## Notes
 
