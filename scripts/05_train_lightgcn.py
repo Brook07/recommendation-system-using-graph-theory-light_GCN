@@ -151,6 +151,8 @@ def main():
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logging.info(f"{Fore.CYAN}Using device: {device}{Style.RESET_ALL}")
+    if device.type == 'cuda':
+        logging.info(f"{Fore.CYAN}GPU Name: {torch.cuda.get_device_name(0)}{Style.RESET_ALL}")
     
     # 1. Load Datasets
     logging.info(f"{Fore.CYAN}Loading graph datasets...{Style.RESET_ALL}")
@@ -206,7 +208,8 @@ def main():
         total_loss = 0
         n_batches = len(train_edges) // batch_size + 1
         
-        for i in range(0, len(train_edges), batch_size):
+        batch_iterator = tqdm(range(0, len(train_edges), batch_size), desc=f"Epoch {epoch:03d}/{epochs} [Train]", leave=False, dynamic_ncols=True)
+        for i in batch_iterator:
             batch_edges = train_edges[i:i+batch_size]
             users = batch_edges[:, 0]
             pos_items = batch_edges[:, 1]
@@ -249,7 +252,14 @@ def main():
             
         epoch_time = time.time() - start_time
         
-        log_msg = f"Epoch [{epoch:03d}/{epochs}] | Time: {epoch_time:.1f}s | Train Loss: {avg_train_loss:.4f} | Val Loss: {val_loss.item():.4f} | R@10: {recall:.4f} | P@10: {precision:.4f} | NDCG@10: {ndcg:.4f}"
+        if device.type == 'cuda':
+            mem_allocated = torch.cuda.memory_allocated(0) / (1024**2)
+            mem_reserved = torch.cuda.memory_reserved(0) / (1024**2)
+            mem_info = f" | GPU Mem: {mem_allocated:.1f}MB / {mem_reserved:.1f}MB"
+        else:
+            mem_info = ""
+        
+        log_msg = f"Epoch [{epoch:03d}/{epochs}] | Time: {epoch_time:.1f}s{mem_info} | Train Loss: {avg_train_loss:.4f} | Val Loss: {val_loss.item():.4f} | R@10: {recall:.4f} | P@10: {precision:.4f} | NDCG@10: {ndcg:.4f}"
         logging.info(log_msg)
         
         history.append({
@@ -267,8 +277,9 @@ def main():
             best_recall = recall
             best_epoch = epoch
             epochs_no_improve = 0
-            # Save best model
-            torch.save(model.state_dict(), OUTPUT_DIR / "best_lightgcn_model.pt")
+            # Save best model back to CPU for compatibility
+            cpu_state_dict = {k: v.cpu() for k, v in model.state_dict().items()}
+            torch.save(cpu_state_dict, OUTPUT_DIR / "best_lightgcn_model.pt")
             torch.save(final_emb.cpu(), OUTPUT_DIR / "final_embeddings.pt")
         else:
             epochs_no_improve += 1

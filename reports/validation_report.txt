@@ -1,37 +1,31 @@
 === DATA VALIDATION REPORT ===
 
-Total Books: 7,928
-Total Users: 36,111
-Total Ratings: 172,419
-Average Rating: 3.53
+Total Books: 1,107
+Total Users: 261
+Total Ratings: 13,929
+Average Rating: 3.70
 
 --- Rating Distribution ---
-Rating 0.0: 16,026
-Rating 0.5: 264
-Rating 1.0: 397
-Rating 1.5: 1,129
-Rating 2.0: 2,251
-Rating 2.5: 9,678
-Rating 3.0: 14,967
-Rating 3.5: 31,646
-Rating 4.0: 42,367
-Rating 4.5: 31,235
-Rating 5.0: 22,459
+Rating 1: 675
+Rating 2: 1,702
+Rating 3: 3,215
+Rating 4: 3,806
+Rating 5: 4,531
 
 --- Genres ---
-Number of Main Genres: 30
-Number of Sub Genres: 151
+Number of Main Genres: 15
+Number of Sub Genres: 43
 
 --- Duplicates & Integrity ---
 Duplicate ISBNs in books: 0
-Duplicate User-ISBN ratings: 19
+Duplicate User-ISBN ratings: 0
 Dataset Integrity (ISBNs in ratings missing in books): 0
 
 --- Missing Values (Books) ---
 ISBN: 0
 Unnamed: 0: 0
 Title: 0
-Author: 21
+Author: 6
 Main Genre: 0
 Sub Genre: 0
 Type: 0
@@ -41,41 +35,44 @@ Amazon_Rating_Count: 0
 URLs: 0
 Number of Sub-genres: 0
 Genre_URL: 0
+Real_ISBN_10: 41
+Real_ISBN_13: 0
+Google_Thumbnail: 0
 Price_num: 0
 
 --- Missing Values (Ratings) ---
-ISBN: 0
 User-ID: 0
+ISBN: 0
 Book-Rating: 0
 
 --- Activity Stats ---
-Books with at least one rating: 7,928
-Users with at least one rating: 36,111
-Average Ratings per Book: 21.75
-Average Ratings per User: 4.77
-Minimum Rating: 0.0
-Maximum Rating: 5.0
+Books with at least one rating: 1,025
+Users with at least one rating: 261
+Average Ratings per Book: 13.59
+Average Ratings per User: 53.37
+Minimum Rating: 1
+Maximum Rating: 5
 
 --- Top 10 Most Rated Books ---
-The Very Hungry Caterpillar [Board book] Eric Carle: 2,754 ratings
-The Great Indian Cricket Circus: Amazing Facts, Stats and Everything in Between: 1,445 ratings
-201 Amazing Activity Book - Fun Activities and Puzzles For Children: Spot The Difference, Logical Reasoning, Patterns & Tracing: 1,024 ratings
-Elon Musk (B): 886 ratings
-My First 365 Coloring Book Jumbo Coloring Book For Kids With Tear Out Sheets: 790 ratings
-Tom Gates 2: Excellent Excuses (And Other Good Stuff) (Tom Gates series): 766 ratings
-Baby Touch: Tummy Time [Board book] Ladybird: 745 ratings
-PW NCERT Punch Physics, Chemistry and Biology Set of 3 Books Combo for Competitive Exams (NEET and CUET) | Includes A&R and Statement Type Questions Edition 2023-2024: 732 ratings
-My First Illustrated Bible Stories Old Testament Boxed Set of 10 Books: 699 ratings
-BTR BONUS PLUS BTR ANNOTED FILLED BOOKS FULLY COLOUR DR ZAINAB VORA ANNOTED ALL-19 SUBJECTS: 618 ratings
+Harry Potter and the Prisoner of Azkaban: 95 ratings
+Harry Potter and the Order of the Phoenix: 76 ratings
+Harry Potter and the Prisoner of Azkaban, Book 3: 76 ratings
+Aristotle and Dante Discover the Secrets of the Universe: 75 ratings
+Before the Coffee Gets Cold: 75 ratings
+Dune: 75 ratings
+Courage To Be Disliked, The: How to free yourself, change your life and achieve real happiness (Courage To series): 75 ratings
+The Secret Of The Nagas (Shiva Trilogy Book 2) (The Shiva Trilogy, 2): 74 ratings
+Fourth Wing: DISCOVER THE INSTANT SUNDAY TIMES AND NUMBER ONE GLOBAL BESTSELLING PHENOMENON!* (The Empyrean): 74 ratings
+Iron Flame: THE NUMBER ONE BESTSELLING SEQUEL TO THE GLOBAL PHENOMENON, FOURTH WING* (The Empyrean): 72 ratings
 
 --- Top 10 Most Active Users ---
-User 278418: 4,047 ratings
-User 11676: 1,358 ratings
-User 198711: 781 ratings
-User 35859: 647 ratings
-User 153662: 514 ratings
-User 76352: 510 ratings
-User 277427: 497 ratings
-User 235105: 491 ratings
-User 230522: 447 ratings
-User 16795: 428 ratings
+User 10120: 143 ratings
+User 10079: 124 ratings
+User 10115: 120 ratings
+User 10246: 113 ratings
+User 10111: 112 ratings
+User 10242: 110 ratings
+User 10010: 109 ratings
+User 10206: 106 ratings
+User 10030: 105 ratings
+User 10212: 104 ratings

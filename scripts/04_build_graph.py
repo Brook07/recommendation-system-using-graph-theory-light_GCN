@@ -205,8 +205,8 @@ if __name__ == "__main__":
     PROCESSED_DIR = BASE_DIR / "data" / "processed-dataset"
     GRAPH_DIR = BASE_DIR / "data" / "processed-graph"
     
-    BOOKS_PATH = PROCESSED_DIR / "Enhanced_Books.csv"
-    RATINGS_PATH = PROCESSED_DIR / "Enhanced_Ratings.csv"
+    BOOKS_PATH = PROCESSED_DIR / "Books_Final_Clean.csv"
+    RATINGS_PATH = PROCESSED_DIR / "Ratings_Final.csv"
     
     builder = GraphBuilder(
         books_path=BOOKS_PATH,

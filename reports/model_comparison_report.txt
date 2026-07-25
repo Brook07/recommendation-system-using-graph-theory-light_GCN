@@ -1,0 +1,25 @@
+=== GRAPHREC MODEL COMPARISON REPORT ===
+
+This report evaluates the LightGCN model against classical baselines.
+
+RESULTS SUMMARY:
+             Model      P@5     P@10      R@5     R@10   NDCG@5  NDCG@10   MAP@10    HR@10  Coverage
+        Popularity 0.011562 0.011316 0.007004 0.012608 0.011349 0.012551 0.004636 0.081181  0.003406
+Highest Avg Rating 0.000984 0.000656 0.000553 0.000667 0.001167 0.000965 0.000388 0.006560  0.001514
+            Random 0.000902 0.000902 0.000722 0.001319 0.000930 0.001185 0.000454 0.009020  0.954970
+            ItemCF 0.057237 0.053506 0.032377 0.061037 0.059233 0.063133 0.027531 0.326363  0.119576
+               SVD 0.057073 0.054572 0.032101 0.061259 0.059256 0.063809 0.027903 0.327183  0.100277
+          LightGCN 0.065109 0.060968 0.038961 0.071712 0.069016 0.073536 0.032944 0.360804  0.042634
+
+- Best P@10: LightGCN (0.0610)
+- Best R@10: LightGCN (0.0717)
+- Best NDCG@10: LightGCN (0.0735)
+- Best HR@10: LightGCN (0.3608)
+
+OBSERVATIONS:
+- Popularity: Often acts as a strong baseline but lacks personalization.
+- Highest Avg Rating: Typically performs poorly on its own because it favors obscure items with a few 5-star ratings.
+- Random: Establishes the absolute lower bound.
+- ItemCF: Strong collaborative filtering baseline, but struggles with extreme sparsity.
+- SVD: Reduces dimensionality, capturing latent semantics.
+- LightGCN: Typically outperforms standard baselines by capturing higher-order network structures in the bipartite graph.

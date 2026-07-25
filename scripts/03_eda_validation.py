@@ -42,13 +42,7 @@ class EDAPipeline:
         with tqdm(total=2, desc="Loading CSVs") as pbar:
             self.books = pd.read_csv(self.books_path)
             pbar.update(1)
-            # Use Enhanced_Ratings_v2.csv if it exists, otherwise Enhanced_Ratings.csv
-            v2_path = str(self.ratings_path).replace('.csv', '_v2.csv')
-            if os.path.exists(v2_path):
-                logging.info(f"{Fore.YELLOW}Found {Path(v2_path).name}, using it instead of original ratings.{Style.RESET_ALL}")
-                self.ratings = pd.read_csv(v2_path)
-            else:
-                self.ratings = pd.read_csv(self.ratings_path)
+            self.ratings = pd.read_csv(self.ratings_path)
             pbar.update(1)
             
         # Clean price
@@ -339,8 +333,8 @@ if __name__ == "__main__":
     PROCESSED_DIR = BASE_DIR / "data" / "processed-dataset"
     REPORTS_DIR = BASE_DIR / "reports"
     
-    BOOKS_PATH = PROCESSED_DIR / "Enhanced_Books.csv"
-    RATINGS_PATH = PROCESSED_DIR / "Enhanced_Ratings.csv"
+    BOOKS_PATH = PROCESSED_DIR / "Books_Final_Clean.csv"
+    RATINGS_PATH = PROCESSED_DIR / "Ratings_Final.csv"
     
     pipeline = EDAPipeline(
         books_path=BOOKS_PATH,

@@ -1,0 +1,49 @@
+Implement an Explainable Recommendation module for my GraphRec book recommendation system.
+
+Objective:
+Provide meaningful explanations for every recommended book instead of only showing the recommendation score.
+
+Requirements:
+For every recommended book, generate one or more explanation tags based on available metadata and user history, such as:
+
+- Because you frequently read <Main Genre>.
+- Similar readers also highly rated this book.
+- This is one of the most popular books in <Genre>.
+- Highly rated on Amazon (Rating + Number of People Rated).
+- Matches your preferred author or similar authors.
+- Similar to books you previously rated highly.
+- Trending within your favorite genre.
+
+Implementation:
+- Analyze each user's historical ratings.
+- Build a user preference profile:
+  - Favorite Main Genres
+  - Favorite Sub Genres
+  - Favorite Authors
+  - Average rating behavior
+- Match recommendations against these preferences.
+- Return explanations together with recommendation results.
+
+Output:
+Each recommendation should include:
+- Book Title
+- Author
+- Main Genre
+- Sub Genre
+- Amazon Rating
+- Dataset Rating
+- Recommendation Score
+- Confidence Score (optional)
+- 1–3 explanation tags
+
+Save:
+- recommendation_explanations.py
+- user_profiles.csv
+- explanation_statistics.csv
+
+Also generate:
+- Top preferred genres per user
+- Top preferred authors
+- Recommendation explanation distribution
+
+Display colorful logs and progress bars during preprocessing.

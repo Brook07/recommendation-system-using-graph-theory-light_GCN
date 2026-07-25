@@ -1,0 +1,75 @@
+=================================================================
+  GRAPHREC - FINAL PIPELINE REPORT
+  Generated: 2026-07-25 22:57:37
+=================================================================
+
+─── DATASET SUMMARY ─────────────────────────────────────────
+  Books (Books_Final_Clean.csv):       1,107
+  Users (Ratings_Final.csv):             261
+  Ratings (Ratings_Final.csv):        13,929
+  Avg Ratings / User:                   53.4
+  Avg Ratings / Book:                   12.6
+  Unique Genres:                          15
+
+─── DATASET PATHS ───────────────────────────────────────────
+  Books:   D:\Semester-Wise-Materials\sixth_sem\recommendation-system-using-graph-theory\data\processed-dataset\Books_Final_Clean.csv
+  Ratings: D:\Semester-Wise-Materials\sixth_sem\recommendation-system-using-graph-theory\data\processed-dataset\Ratings_Final.csv
+  Graph:   D:\Semester-Wise-Materials\sixth_sem\recommendation-system-using-graph-theory\data\processed-graph
+  Model:   D:\Semester-Wise-Materials\sixth_sem\recommendation-system-using-graph-theory\models\lightgcn\best_lightgcn_model.pt
+
+─── GRAPH STATISTICS ────────────────────────────────────────
+  Users:    261
+  Books:    1,107
+  Edges:    13,929
+  Density:  0.048209
+
+─── TRAINING METRICS ────────────────────────────────────────
+  Best Epoch:     7
+  Total Epochs:   17
+  Recall@10:      0.3805
+  Precision@10:   0.2046
+  NDCG@10:        0.3199
+  Final Train Loss: 0.4632
+  Total Train Time: 2.4s
+
+─── GENRE DISTRIBUTION (Top 15) ─────────────────────────────
+  Children's Books                   :  362
+  Arts, Film & Photography           :  127
+  Business & Economics               :  103
+  Crafts, Home & Lifestyle           :   94
+  Higher Education Textbooks         :   89
+  Biographies, Diaries & True Accounts:   59
+  Exam Preparation                   :   55
+  Fantasy, Horror & Science Fiction  :   49
+  Engineering                        :   31
+  Health, Family & Personal Development:   30
+  Crime, Thriller & Mystery          :   29
+  History                            :   27
+  Language, Linguistics & Writing    :   23
+  Law                                :   22
+  Literature & Fiction               :    7
+
+─── RATING DISTRIBUTION ─────────────────────────────────────
+  5 Stars:  32.5%
+  4 Stars:  27.3%
+  3 Stars:  23.1%
+  2 Stars:  12.2%
+  1 Stars:   4.8%
+
+─── VALIDATION RESULTS ──────────────────────────────────────
+  ISBNs cross-validated: ✅ PASS
+  Missing thumbnails:    ✅ NONE
+  Model loaded:          ✅ YES
+
+─── E2E RECOMMENDATION TESTS ────────────────────────────────
+  User 10005 (Sci-Fi Fan): 10 recs returned
+    Genres: Children's Books, Fantasy, Horror & Science Fiction
+  User 10022 (Romance Reader): 10 recs returned
+    Genres: Children's Books, Fantasy, Horror & Science Fiction
+  User 10078 (Mystery/Thriller Reader): 10 recs returned
+    Genres: Children's Books, History, Fantasy, Horror & Science Fiction, Language, Linguistics & Writing
+  User 10200 (Business/Finance Reader): 10 recs returned
+    Genres: Business & Economics, Health, Family & Personal Development
+  User 10300 (Computer Science Student): 0 recs returned
+
+=================================================================
