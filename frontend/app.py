@@ -238,6 +238,14 @@ def load_demo_personas():
                          "secondary_genre": row["Secondary_Genre"]}
     return demo, "\n".join(errors) if errors else None
 
+@st.cache_data(ttl=3600)
+def count_unique_genres():
+    books_path = DATA_DIR / "Books_Final_Clean.csv"
+    if books_path.exists():
+        df = pd.read_csv(books_path, usecols=["Main Genre"], dtype=str)
+        return df["Main Genre"].dropna().nunique()
+    return "—"
+
 demo_users, _persona_error = load_demo_personas()
 persona_labels = list(demo_users.keys())
 
@@ -322,7 +330,7 @@ with right_col:
         s1.metric("Books",   f"{stats.get('Total_Books',0):,}")
         s2.metric("Users",   f"{stats.get('Total_Users',0):,}")
         s1.metric("Ratings", f"{stats.get('Total_Ratings',0):,}")
-        s2.metric("Genres",  str(stats.get("Unique_Genres", "—")))
+        s2.metric("Genres",  str(count_unique_genres()))
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
@@ -334,7 +342,7 @@ recs           = recs_response.get("recommendations", []) if recs_response else 
 inference_time = recs_response.get("inference_time_ms", 0) if recs_response else 0
 
 # Section header
-head_left, head_right = st.columns([4, 1])
+head_left, head_mid, head_right = st.columns([3, 1, 1])
 with head_left:
     st.markdown(f"""
     <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
@@ -342,6 +350,19 @@ with head_left:
       <span class="rec-info">{"✨ " + str(len(recs)) + " books · " + str(inference_time) + "ms" if recs else ""}</span>
     </div>
     """, unsafe_allow_html=True)
+with head_mid:
+    # Genre filter — populated from live recommendations
+    all_genres = sorted(set(
+        r.get("Main_Genre", "") for r in recs
+        if r.get("Main_Genre", "") not in ("", "nan", "Unknown")
+    ))
+    genre_options = ["All Genres"] + all_genres
+    genre_filter = st.selectbox(
+        "Genre",
+        genre_options,
+        label_visibility="collapsed",
+        key="genre_filter",
+    )
 with head_right:
     search_q = st.text_input("🔍 Filter", value="", placeholder="Search title…",
                               label_visibility="collapsed", key="search_filter")
@@ -349,10 +370,15 @@ with head_right:
 if not recs:
     st.info("No recommendations yet. Make sure the FastAPI backend is running (`uvicorn backend.main:app --reload`) and the model is trained.")
 else:
-    # Filter
+    # Filter by text search
     if search_q:
         recs = [r for r in recs if search_q.lower() in r.get("Book_Title","").lower()
                                  or search_q.lower() in r.get("Author","").lower()]
+    # Filter by genre
+    if genre_filter != "All Genres":
+        recs = [r for r in recs if r.get("Main_Genre","") == genre_filter]
+    if not recs:
+        st.info(f"No results for genre **{genre_filter}**. Try 'All Genres' or a different search.")
 
     # ── Book grid: 4 columns ──────────────────────────────────────
     COLS = 4
